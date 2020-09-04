@@ -61,3 +61,4 @@ dkms.conf
 st
 *.orig
 *.rej
+config.h
