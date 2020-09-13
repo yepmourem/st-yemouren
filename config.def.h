@@ -6,7 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char* font
-    = " FantasqueSansMono Nerd Font:pixelsize=20:antialias=true:autohint=true";
+    = " FantasqueSansMono Nerd Font:pixelsize=25:antialias=true:autohint=true";
 static int borderpx = 2;
 
 /* disable bold, italic and roman fonts globally */
