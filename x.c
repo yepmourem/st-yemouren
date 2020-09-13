@@ -283,6 +283,9 @@ clipcopy(const Arg *dummy)
 	}
 }
 
+static Cursor cursor;
+static XColor xmousefg, xmousebg;
+
 void
 clippaste(const Arg *dummy)
 {
@@ -1129,10 +1132,10 @@ void
 xinit(int cols, int rows)
 {
 	XGCValues gcvalues;
-	Cursor cursor;
+ /**  Cursor cursor; */
 	Window parent;
 	pid_t thispid = getpid();
-	XColor xmousefg, xmousebg;
+	/** XColor xmousefg, xmousebg; */
 	XWindowAttributes attr;
 	XVisualInfo vis;
 
@@ -1622,6 +1625,8 @@ xsettitle(char *p)
 int
 xstartdraw(void)
 {
+	if (IS_SET(MODE_VISIBLE))
+		XCopyArea(xw.dpy, xw.win, xw.buf, dc.gc, 0, 0, win.w, win.h, 0, 0);
 	return IS_SET(MODE_VISIBLE);
 }
 
@@ -1710,6 +1715,12 @@ xsetmode(int set, unsigned int flags)
 {
 	int mode = win.mode;
 	MODBIT(win.mode, set, flags);
+        if (flags & MODE_MOUSE) {
+                if (win.mode & MODE_MOUSE)
+                        XUndefineCursor(xw.dpy, xw.win);
+                else
+                        XDefineCursor(xw.dpy, xw.win, cursor);
+        }
 	if ((win.mode & MODE_REVERSE) != (mode & MODE_REVERSE))
 		redraw();
 }
