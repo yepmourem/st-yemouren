@@ -100,35 +100,20 @@ char* termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.5;
-
+float alpha = 0.8;
 
 /* Terminal colors (16 first used in escape sequence) */
-static const char *colorname[] = {
-	"#282828", /* hard contrast: #1d2021 / soft contrast: #32302f */
-	"#cc241d",
-	"#98971a",
-	"#d79921",
-	"#458588",
-	"#b16286",
-	"#689d6a",
-	"#a89984",
-	"#928374",
-	"#fb4934",
-	"#b8bb26",
-	"#fabd2f",
-	"#83a598",
-	"#d3869b",
-	"#8ec07c",
-	"#ebdbb2",
-	[255] = 0,
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#add8e6", /* 256 -> cursor */
-	"#555555", /* 257 -> rev cursor*/
-	"#282828", /* 258 -> bg */
-	"#ebdbb2", /* 259 -> fg */
+static const char* colorname[] = {
+    "#282828", /* hard contrast: #1d2021 / soft contrast: #32302f */
+    "#cc241d", "#98971a", "#d79921", "#458588", "#b16286", "#689d6a", "#a89984",
+    "#928374", "#fb4934", "#b8bb26", "#fabd2f", "#83a598", "#d3869b", "#8ec07c",
+    "#ebdbb2", [255] = 0,
+    /* more colors can be added after 255 to use with DefaultXX */
+    "#add8e6", /* 256 -> cursor */
+    "#555555", /* 257 -> rev cursor*/
+    "#282828", /* 258 -> bg */
+    "#ebdbb2", /* 259 -> fg */
 };
-
 
 /*
  * Default colors (colorname index)
@@ -139,59 +124,57 @@ unsigned int defaultbg = 258;
 unsigned int defaultcs = 256;
 unsigned int defaultrcs = 257;
 
-
-
 /* [> Terminal colors (16 first used in escape sequence) <] */
 // static const char* colorname[] = {
-    // [> 8 normal colors <]
-    // [>  "black", <]
-    // // "red3",
-    // // "green3",
-    // // "yellow3",
-    // // "blue2",
-    // // "magenta3",
-    // // "cyan3",
-    // // "gray90",
-    // [>  <]
-    // "#3b4252", [> black   <]
-    // "#bf616a", [> red     <]
-    // "#a3be8c", [> green   <]
-    // "#ebcb8b", [> yellow  <]
-    // "#81a1c1", [> blue    <]
-    // "#b48ead", [> magenta <]
-    // "#88c0d0", [> cyan    <]
-    // "#e5e9f0", [> white   <]
+// [> 8 normal colors <]
+// [>  "black", <]
+// // "red3",
+// // "green3",
+// // "yellow3",
+// // "blue2",
+// // "magenta3",
+// // "cyan3",
+// // "gray90",
+// [>  <]
+// "#3b4252", [> black   <]
+// "#bf616a", [> red     <]
+// "#a3be8c", [> green   <]
+// "#ebcb8b", [> yellow  <]
+// "#81a1c1", [> blue    <]
+// "#b48ead", [> magenta <]
+// "#88c0d0", [> cyan    <]
+// "#e5e9f0", [> white   <]
 //
-    // [> 8 bright colors <]
-    // [>  "gray50", <]
-    // // "red",
-    // // "green",
-    // // "yellow",
-    // // "#5c5cff",
-    // // "magenta",
-    // // "cyan",
-    // // "white",
-    // [>  <]
+// [> 8 bright colors <]
+// [>  "gray50", <]
+// // "red",
+// // "green",
+// // "yellow",
+// // "#5c5cff",
+// // "magenta",
+// // "cyan",
+// // "white",
+// [>  <]
 //
-    // [> more colors can be added after 255 to use with DefaultXX <]
-    // [> "#cccccc", <]
-    // // "#555555",
-    // [> "black", <]
+// [> more colors can be added after 255 to use with DefaultXX <]
+// [> "#cccccc", <]
+// // "#555555",
+// [> "black", <]
 //
-    // "#4c566a", [> black   <]
-    // "#bf616a", [> red     <]
-    // "#a3be8c", [> green   <]
-    // "#ebcb8b", [> yellow  <]
-    // "#81a1c1", [> blue    <]
-    // "#b48ead", [> magenta <]
-    // "#8fbcbb", [> cyan    <]
-    // "#eceff4", [> white   <]
+// "#4c566a", [> black   <]
+// "#bf616a", [> red     <]
+// "#a3be8c", [> green   <]
+// "#ebcb8b", [> yellow  <]
+// "#81a1c1", [> blue    <]
+// "#b48ead", [> magenta <]
+// "#8fbcbb", [> cyan    <]
+// "#eceff4", [> white   <]
 //
-    // [255] = 0,
+// [255] = 0,
 //
-    // "#2e3440", [> background <]
-    // "#d8dee9", [> foreground <]
-    // "#3b4252",
+// "#2e3440", [> background <]
+// "#d8dee9", [> foreground <]
+// "#3b4252",
 // };
 //
 /*
@@ -274,6 +257,8 @@ static Shortcut shortcuts[] = {
     /* mask                 keysym          function        argument */
     { XK_ANY_MOD, XK_Break, sendbreak, { .i = 0 } },
     { ControlMask, XK_Print, toggleprinter, { .i = 0 } },
+
+    { TERMMOD, XK_Return, newterm, { .i = 0 } },
     { ShiftMask, XK_Print, printscreen, { .i = 0 } },
     { XK_ANY_MOD, XK_Print, printsel, { .i = 0 } },
     { TERMMOD, XK_Prior, zoom, { .f = +1 } },
@@ -316,78 +301,78 @@ static Shortcut shortcuts[] = {
  * to be mapped below, add them to this array.
  */
 static KeySym mappedkeys[] = {
-	XK_space,
-	XK_m,
-	XK_i,
-	XK_A,
-	XK_B,
-	XK_C,
-	XK_D,
-	XK_E,
-	XK_F,
-	XK_G,
-	XK_H,
-	XK_I,
-	XK_K,
-	XK_J,
-	XK_L,
-	XK_M,
-	XK_N,
-	XK_O,
-	XK_P,
-	XK_Q,
-	XK_R,
-	XK_S,
-	XK_T,
-	XK_U,
-	XK_V,
-	XK_W,
-	XK_X,
-	XK_Y,
-	XK_Z,
-	XK_Z,
-	XK_0,
-	XK_1,
-	XK_2,
-	XK_3,
-	XK_4,
-	XK_5,
-	XK_6,
-	XK_7,
-	XK_8,
-	XK_9,
-	XK_exclam,
-	XK_quotedbl,
-	XK_numbersign,
-	XK_dollar,
-	XK_percent,
-	XK_ampersand,
-	XK_apostrophe,
-	XK_parenleft,
-	XK_parenright,
-	XK_asterisk,
-	XK_plus,
-	XK_comma,
-	XK_minus,
-	XK_period,
-	XK_slash,
-	XK_colon,
-	XK_semicolon,
-	XK_less,
-	XK_equal,
-	XK_greater,
-	XK_question,
-	XK_at,
-	XK_bracketleft,
-	XK_backslash,
-	XK_bracketright,
-	XK_asciicircum,
-	XK_underscore,
-	XK_grave,
-	XK_braceleft,
-	XK_bar,
-	XK_braceright,
-	XK_asciitilde,
+    XK_space,
+    XK_m,
+    XK_i,
+    XK_A,
+    XK_B,
+    XK_C,
+    XK_D,
+    XK_E,
+    XK_F,
+    XK_G,
+    XK_H,
+    XK_I,
+    XK_K,
+    XK_J,
+    XK_L,
+    XK_M,
+    XK_N,
+    XK_O,
+    XK_P,
+    XK_Q,
+    XK_R,
+    XK_S,
+    XK_T,
+    XK_U,
+    XK_V,
+    XK_W,
+    XK_X,
+    XK_Y,
+    XK_Z,
+    XK_Z,
+    XK_0,
+    XK_1,
+    XK_2,
+    XK_3,
+    XK_4,
+    XK_5,
+    XK_6,
+    XK_7,
+    XK_8,
+    XK_9,
+    XK_exclam,
+    XK_quotedbl,
+    XK_numbersign,
+    XK_dollar,
+    XK_percent,
+    XK_ampersand,
+    XK_apostrophe,
+    XK_parenleft,
+    XK_parenright,
+    XK_asterisk,
+    XK_plus,
+    XK_comma,
+    XK_minus,
+    XK_period,
+    XK_slash,
+    XK_colon,
+    XK_semicolon,
+    XK_less,
+    XK_equal,
+    XK_greater,
+    XK_question,
+    XK_at,
+    XK_bracketleft,
+    XK_backslash,
+    XK_bracketright,
+    XK_asciicircum,
+    XK_underscore,
+    XK_grave,
+    XK_braceleft,
+    XK_bar,
+    XK_braceright,
+    XK_asciitilde,
 };
 
 /*
